@@ -1,102 +1,109 @@
 package dto;
-import java.util.*;
-import service.ProfilePosts;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class User {
-	String firstName, lastName, email, password, month, day, year, gender, profilePicture, coverPicture;
-	int id;
-        List<Post> posts;
-	
-        public List<Post> getPosts(java.sql.Connection con){
-            posts = ProfilePosts.getProfilePosts(id, con);
-            return posts;
-        }
-        
-	public String getProfilePicture() {
-		return profilePicture;
-	}
-        
-	public void setProfilePicture(String profilePicture) {
-		this.profilePicture = profilePicture;
-	}
+    @Id @GeneratedValue
+    private int id;
+    
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private String month;
+    private String day;
+    private String year;
+    private String gender;
+    private String profilePicture;
+    private String coverPicture;
 
-	public String getCoverPicture() {
-		return coverPicture;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setCoverPicture(String coverPicture) {
-		this.coverPicture = coverPicture;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getMonth() {
+        return month;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setMonth(String month) {
+        this.month = month;
+    }
 
-	public String getMonth() {
-		return month;
-	}
+    public String getDay() {
+        return day;
+    }
 
-	public void setMonth(String month) {
-		this.month = month;
-	}
+    public void setDay(String day) {
+        this.day = day;
+    }
 
-	public String getDay() {
-		return day;
-	}
+    public String getYear() {
+        return year;
+    }
 
-	public void setDay(String day) {
-		this.day = day;
-	}
+    public void setYear(String year) {
+        this.year = year;
+    }
 
-	public String getYear() {
-		return year;
-	}
+    public String getGender() {
+        return gender;
+    }
 
-	public void setYear(String year) {
-		this.year = year;
-	}
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-	public String getGender() {
-		return gender;
-	}
+    public String getProfilePicture() {
+        return profilePicture;
+    }
 
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public String getCoverPicture() {
+        return coverPicture;
+    }
+
+    public void setCoverPicture(String coverPicture) {
+        this.coverPicture = coverPicture;
+    }
 }

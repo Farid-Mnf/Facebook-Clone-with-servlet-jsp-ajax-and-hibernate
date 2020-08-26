@@ -1,45 +1,62 @@
 package dto;
-import service.*;
-import java.util.*;
-import java.sql.*;
+import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Post {
-	int user_id;
-	int post_id;
-	String content;
-	String date;
-        List<Comment> comments;
-        int likes;
-        
-        
-        public List<Comment> getComments(Connection con){
-            comments = LoadComments.getPostComments(post_id, con);
-            return comments;
-        }
-	public int getLikes(Connection con){
-            return GetLikes.get(post_id, con);
-        }
-	public String getDate() {
-		return date;
-	}
-	public void setDate(String date) {
-		this.date = date;
-	}
-	public int getPost_id() {
-		return post_id;
-	}
-	public void setPost_id(int post_id) {
-		this.post_id = post_id;
-	}
-	public int getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    private int id;
+    
+    private int likes;
+    
+    @OneToOne
+    private User user;
+    
+    private String content;
+    
+    private Date date;
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

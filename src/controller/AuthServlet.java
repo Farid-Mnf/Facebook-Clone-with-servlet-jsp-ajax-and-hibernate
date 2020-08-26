@@ -1,24 +1,29 @@
 package controller;
 
-import dto.Test;
+import dto.*;
 import java.io.IOException;
+import java.util.Date;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 public class AuthServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        Session session = sessionFactory.openSession();
+        
+        Session session = (Session) getServletContext().getAttribute("session");
         session.beginTransaction();
-        Test test = new Test();
-        test.setName("farid");
-        session.save(test);
+        
+        User user = (User) session.get(User.class, 2);
+        Post post = new Post();
+        post.setContent("first post");
+        post.setDate(new Date());
+        post.setUser(user);
+        post.setLikes(32);
+        
+        session.save(post);
         session.getTransaction().commit();
-        session.close();
+
 //        //GET parameters of login form
 //
 //        String email = request.getParameter("email");

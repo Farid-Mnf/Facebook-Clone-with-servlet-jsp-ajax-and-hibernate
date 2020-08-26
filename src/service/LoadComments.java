@@ -32,10 +32,10 @@ public class LoadComments {
             Comment comment;
             while(result.next()){
                 comment = new Comment();
-                comment.setComment_id(result.getInt(1));
-                comment.setComment_user_id(result.getInt(2));
-                comment.setComment_post_id(result.getInt(3));
-                comment.setComment_text(result.getString(4));
+//                comment.setComment_id(result.getInt(1));
+//                comment.setComment_user_id(result.getInt(2));
+//                comment.setComment_post_id(result.getInt(3));
+//                comment.setComment_text(result.getString(4));
                 comments.add(comment);
             }
             return comments;

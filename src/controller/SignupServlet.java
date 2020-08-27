@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 
 @WebServlet("/signup")
 public class SignupServlet extends HttpServlet {
-
+    @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         String firstName;
@@ -49,10 +50,13 @@ public class SignupServlet extends HttpServlet {
                 user.setGender(gender);
                 user.setProfilePicture("facebook.png");
                 user.setCoverPicture("cover.jpg");
-                Session session = (Session) getServletContext().getAttribute("session");
+                SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
+                System.out.println("SessionFactory:"+sessionFactory);
+                Session session = sessionFactory.openSession();
                 session.beginTransaction();
                 session.save(user);
                 session.getTransaction().commit();
+                session.close();
 //                StoreFile.store(user.getId(), "facebook.png", (java.sql.Connection) getServletContext().getAttribute("con"), "profile");
 //                StoreFile.store(user.getId(), "cover.jpg", (java.sql.Connection) getServletContext().getAttribute("con"), "cover");
 //                SignUp.signUp(user, con);

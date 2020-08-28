@@ -57,14 +57,9 @@ public class SignupServlet extends HttpServlet {
                 session.save(user);
                 session.getTransaction().commit();
                 session.close();
-//                StoreFile.store(user.getId(), "facebook.png", (java.sql.Connection) getServletContext().getAttribute("con"), "profile");
-//                StoreFile.store(user.getId(), "cover.jpg", (java.sql.Connection) getServletContext().getAttribute("con"), "cover");
-//                SignUp.signUp(user, con);
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
         }
         response.sendRedirect("index.jsp");
-
     }
-
 }

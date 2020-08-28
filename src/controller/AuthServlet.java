@@ -21,25 +21,7 @@ public class AuthServlet extends HttpServlet {
         Session session = sessionFactory.openSession();
         //find user in the system
         User user = service.UserData.getUser(email, password, session);
-        if(user!=null) {
-            System.out.println("Email: "+user.getEmail());
-            System.out.println("Password: "+user.getPassword());
-            System.out.println("Name: "+user.getFirstName()+" "+user.getLastName());
-            System.out.println(": "+user.getCoverPicture());
-            System.out.println(": "+user.getProfilePicture());
-            System.out.println(": "+user.getGender());
-            
-//            int id = user.getId();
-//            String profilePicture = service.GetFile.get(id,con,"profile");
-//            String coverPicture = service.GetFile.get(id,con,"cover");
-//            if(profilePicture==null){
-//                profilePicture = "facebook.png";
-//            } 
-//            if(coverPicture==null){
-//                coverPicture = "cover.jpg";
-//            }
-//            user.setProfilePicture(profilePicture);
-//            user.setCoverPicture(coverPicture);
+        if(user!=null) {           
             HttpSession httpSession = request.getSession(true);
             httpSession.setAttribute("user", user);
             httpSession.setMaxInactiveInterval(24*60*60);
@@ -47,7 +29,7 @@ public class AuthServlet extends HttpServlet {
             if(keepSigned!=null) {
                     request.getSession().setAttribute("keepSigned", "true");
             }
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("timeline.jsp");
         }else {
             response.sendRedirect("index.jsp");
         }

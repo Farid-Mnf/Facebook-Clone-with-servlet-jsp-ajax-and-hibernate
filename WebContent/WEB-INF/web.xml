@@ -22,6 +22,8 @@
     </servlet-mapping>
     <context-param>
         <param-name>file-upload</param-name>
-        <param-value>/home/ferio/eclipse-workspace/Facebook/WebContent/Images/</param-value>
+        <param-value>
+            /home/ferio/NetBeansProjects/Facebook-Clone/WebContent/Images/
+        </param-value>
     </context-param>
 </web-app>

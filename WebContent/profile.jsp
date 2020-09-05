@@ -414,7 +414,6 @@
         </div>
     </div>
 
-    <%@include file="check2.jsp" %>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
@@ -534,6 +533,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
+        
+<%@include file="check2.jsp" %>
 </body>
 
 </html>

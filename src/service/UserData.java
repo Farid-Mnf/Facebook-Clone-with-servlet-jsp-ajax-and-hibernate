@@ -22,6 +22,5 @@ public class UserData {
             session.close();
             return null;
         }
-
     }
 }

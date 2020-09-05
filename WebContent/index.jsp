@@ -12,7 +12,7 @@
 
 	<%
             if(request.getSession()!=null) {
-                if (session.getAttribute("keepSigned") != null) {
+                if (request.getSession().getAttribute("keepSigned") != null) {
                     response.sendRedirect("timeline.jsp");
                 }
             }

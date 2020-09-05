@@ -10,44 +10,46 @@
 <html lang="en">
 
 <head>
+    <title>Facebook</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/owl.theme.default.css">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <style>
-        img:hover{
+        img:hover {
             cursor: pointer
         }
-        .likeCount{
+
+        .likeCount {
             position: relative;
             right: 150px
         }
-        .likeButton{
+
+        .likeButton {
             position: absolute;
         }
     </style>
 </head>
 
 <body>
-<%
+    <%
     response.setHeader("Cache-Control", "no-cache, no-store");
     response.setHeader("Pragma", "no-cache");
 %>
 
-<%! 
+    <%! 
     User user;
     SessionFactory sessionFactory;
     Session dbSession;
 %>
-<%
+    <%
 user = (User) session.getAttribute("user");
 sessionFactory = (SessionFactory) application.getAttribute("sessionFactory");
 dbSession = sessionFactory.openSession();
 %>
-    <%@ include file = "check.jsp" %>            
-        
+    <%@ include file = "check.jsp" %>
+
     <nav>
         <!--logo and search-->
         <div class="left-side">
@@ -98,10 +100,11 @@ dbSession = sessionFactory.openSession();
         <div class="right-side">
             <div class="user">
                 <div class="profile">
-                    <a href="profile.jsp"><img src="Images/<%= user.getProfilePicture() %>" alt=""></a>
+                    <a href="profile.jsp"><img onerror="this.src='/Images/facebook.png'"
+                            src="Images/<%= user.getProfilePicture() %>" alt=""></a>
                 </div>
                 <h4><a style="color:white" href="profile.jsp"><%=user.getFirstName()%></a></h4>
-                
+
             </div>
 
             <!--icons-->
@@ -124,32 +127,61 @@ dbSession = sessionFactory.openSession();
             </div>
         </div>
     </nav>
-
-
+        
     <!--content-->
     <div class="wrapper">
         <!--posts-->
         <div class="posts" style="width:70%; margin:0 auto">
             <!--create post-->
-            <div class="timeline">
+            <div id="timeline" class="timeline">
+                <!-- posting box -->
+                <div class="view create-post" style="margin-top:0">
+                    <div class="input">
+                        <div class="user">
+                            <div class="profile">
+                                <img onerror="this.src='/Images/facebook.png'"
+                                    src="Images/<%=user.getProfilePicture()%>" alt="">
 
+                            </div>
+                        </div>
+                        <input type="text" placeholder="What on your mind, <%=user.getFirstName()%>?" name=""
+                            id="postText">
+                    </div>
+                    <div class="media">
+                        <div class="category">
+                            <div style="margin:0 auto" class="option">
+                                <div class="icon">
+                                    <img id="postImage" style="
+                                                    position: relative;
+                                                    top: -10px;
+                                                    height: 200%;
+                                                    width: 250%;
+" src="/Images/postIcon.png" alt="post icon">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <%
                 dbSession.beginTransaction();
-                List<Post> posts = dbSession.createQuery("from Post where not user_id="+user.getId()).list();
+                List<Post> posts = dbSession.createQuery("from Post where not user_id="+user.getId()+" order by date desc").list();
                 List<Comment> comments;
                 User postUser;
                 for(Post post : posts){
                     postUser = post.getUser();
                     comments = dbSession.createQuery("from Comment where post_id="+post.getId()).list();
                 %>
-                    <!--post container-->
+
+
+                <!--post container-->
                 <div class="view view-post-container smaller-margin">
                     <div id='postView<%=post.getId()%>' class="view-post">
                         <div class="upper">
                             <div class="d-flex">
                                 <div class="user">
                                     <div class="profile">
-                                        <img src="Images/<%=postUser.getProfilePicture()%>" alt="">
+                                        <img onerror="this.src='/Images/facebook.png'"
+                                            src="Images/<%=postUser.getProfilePicture()%>" alt="">
                                     </div>
                                 </div>
 
@@ -172,8 +204,10 @@ dbSession = sessionFactory.openSession();
 
                         <div class="actions-container">
                             <div class="action">
-                                <span id='<%="like"+post.getId()%>' class="likeCount"><%=post.getLikes()%> likes</span>
-                                <button onclick="getLikes(<%=post.getId()%>,<%=user.getId()%>)" style="background:none;border:none" class="likeButton">
+                                <span id='<%="like"+post.getId()%>' class="likeCount"><%=post.getLikes().size()%>
+                                    likes</span>
+                                <button onclick="getLikes(<%=post.getId()%>,<%=user.getId()%>)"
+                                    style="background:none;border:none" class="likeButton">
                                     <div class="icon">
                                         <img src="img/icons/thumbs-up.svg" alt="">
                                     </div>
@@ -181,7 +215,7 @@ dbSession = sessionFactory.openSession();
                                 <span>
                                     like
                                 </span>
-                                
+
                             </div>
 
                             <div class="action">
@@ -193,21 +227,25 @@ dbSession = sessionFactory.openSession();
                                 </span>
                             </div>
                         </div>
-                        <input style="visibility:hidden" type="text" value="<%=post.getId()%>" name="postId"/>
-                                <input style="visibility:hidden" type="text" value="<%=user.getId()%>" name="userId"/>
-                            <div class="write-comment">
+                        <input style="visibility:hidden" type="text" value="<%=post.getId()%>" name="postId" />
+                        <input style="visibility:hidden" type="text" value="<%=user.getId()%>" name="userId" />
+                        <div class="write-comment">
                             <div class="user">
                                 <div class="profile">
-                                    <img src="Images/<%= user.getProfilePicture() %>" alt="">
+                                    <img onerror="this.src='/Images/facebook.png'"
+                                        src="Images/<%= user.getProfilePicture() %>" alt="">
                                 </div>
                             </div>
-                               
+
                             <div class="input">
-                                
-                                <input id="comment<%=post.getId()%>" style="color:white" type="text" placeholder="Write a comment" name="comment">
+
+                                <input id="comment<%=post.getId()%>" style="color:white" type="text"
+                                    placeholder="Write a comment" name="comment">
                                 <div class="media">
                                     <div class="icon">
-                                        <button style="background:none;border:none;" onclick="comment(<%=user.getId()%>, <%=post.getId()%>, 'comment<%=post.getId()%>','postView'+<%=post.getId()%>)"><img style="background: url(Images/send.png);
+                                        <button style="background:none;border:none;"
+                                            onclick="comment(<%=user.getId()%>, <%=post.getId()%>, 'comment<%=post.getId()%>','postView'+<%=post.getId()%>)"><img
+                                                style="background: url(Images/send.png);
                                             background-size: cover;
                                             padding-left: 20px;
                                             cursor: pointer;
@@ -217,31 +255,32 @@ dbSession = sessionFactory.openSession();
                                 </div>
                             </div>
                         </div>
-                    <%
+                        <%
                     for(Comment comment : comments){
                     %>
                         <div class="write-comment commentList">
                             <div class="user">
                                 <div class="profile">
-                                    <img src="Images/<%=comment.getUser().getProfilePicture() %>" alt="">
+                                    <img onerror="this.src='/Images/facebook.png'"
+                                        src="Images/<%=comment.getUser().getProfilePicture() %>" alt="">
                                 </div>
                             </div>
                             <div style="justify-content: left;color:white" class="input" role="alert">
                                 <%= comment.getCommentText()%>
                             </div>
-                        </div>    
-                    <%
+                        </div>
+                        <%
                     }
                     %>
-                        
+
 
                     </div>
                 </div>
                 <%
                 }
                 %>
-                
-                                
+
+
                 <!--people you may know-->
                 <div class="view friends smaller-margin">
                     <div class="upper">
@@ -335,56 +374,80 @@ dbSession = sessionFactory.openSession();
                 </div>
             </div>
         </div>
-
-        <!--shortcuts 2 -events and chat- -->
-        <div class="shortcuts shortcuts-2">
-        </div>
     </div>
-                
 
-
-
-
-    <%@include file="check2.jsp"%>
     <script>
-        function getLikes(postId,userId){
+        function getLikes(postId, userId) {
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/like?post_id='+postId+'&user_id='+userId, true);
-            xhr.onload = function(){
-                if(this.status==200) {
+            xhr.open('GET', '/like?post_id=' + postId + '&user_id=' + userId, true);
+            xhr.onload = function () {
+                if (this.status == 200) {
                     var count = this.responseText;
-                    console.log("count is: ",count);
-                    document.getElementById('like'+postId).textContent = count+' likes';
+                    console.log("count is: ", count);
+                    document.getElementById('like' + postId).textContent = count + ' likes';
                 }
             }
             xhr.send();
-            
         }
-        function comment(userId,postId,inputId,postView){
+        function comment(userId, postId, inputId, postView) {
             var input = document.getElementById(inputId);
             var comment = input.value;
             var xhr = new XMLHttpRequest();
-            xhr.open("GET",'/comment?comment='+comment+'&postId='+postId+'&userId='+userId,true);
-            xhr.onload = function(){
-                if(this.status==200){
+            xhr.open("GET", '/comment?comment=' + comment + '&postId=' + postId + '&userId=' + userId, true);
+            xhr.onload = function () {
+                if (this.status == 200) {
                     var newComment = this.responseText;
-                    var commentScheme = "<div class='write-comment commentList'><div class='user'><div class='profile'><img src='Images/<%=user.getProfilePicture()%>'></div></div><div style='justify-content: left;color:white' class='input' role='alert'>"+newComment+"</div></div>";
+                    var commentScheme = "<div class='write-comment commentList'><div class='user'><div class='profile'><img src='Images/<%=user.getProfilePicture()%>'></div></div><div style='justify-content: left;color:white' class='input' role='alert'>" + newComment + "</div></div>";
                     var postViewScheme = document.getElementById(postView);
-                    postViewScheme.innerHTML+= commentScheme;
-                    
+                    postViewScheme.innerHTML += commentScheme;
+
                     console.log(newComment);
                 }
             }
             xhr.send();
             input.value = "";
         }
-        
-        
-        
+
+        var postImage = document.getElementById("postImage");
+
+        postImage.onmouseenter = function () {
+            this.src = "/Images/postIcon-dark.png";
+        }
+
+        postImage.onmouseout = function () {
+            this.src = "/Images/postIcon.png";
+        }
+
+        postImage.onmousedown = function () {
+            this.src = "/Images/postIcon.png";
+        }
+
+        postImage.onmouseup = function () {
+            this.src = "/Images/postIcon-dark.png";
+            var xhr = new XMLHttpRequest();
+            var post = document.getElementById('postText');
+            var postContent = post.value;
+            console.log(postContent);
+            var data = 'post=' + postContent;
+            xhr.open('POST', 'post', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            xhr.onload = function(){
+                var timeline = document.getElementById('timeline');
+                var newPostNode = document.createElement('div');
+                newPostNode.classList = 'view view-post-container smaller-margin';
+                newPostNode.innerHTML = this.responseText;
+                timeline.insertBefore(newPostNode, timeline.children[0].nextSibling);
+            }
+            xhr.send(data);
+
+        }
+
     </script>
     <script src="js/jquery.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/index.js"></script>
+    
+<%@include file="check2.jsp"%>
 </body>
 
 </html>

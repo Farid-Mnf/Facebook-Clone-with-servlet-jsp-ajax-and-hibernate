@@ -1,6 +1,9 @@
 package controller;
 
-import dto.*;
+import dto.Comment;
+import dto.LikeReact;
+import dto.Post;
+import dto.User;
 import java.io.IOException;
 import java.util.Date;
 import javax.servlet.*;
@@ -9,10 +12,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 public class AuthServlet extends HttpServlet {
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //GET parameters of login form
-
+//        GET parameters of login form
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String keepSigned = request.getParameter("keepSigned");

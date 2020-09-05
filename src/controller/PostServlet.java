@@ -17,15 +17,14 @@ public class PostServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String content = request.getParameter("post");
-        
-        User user = new User();
-        user = (User) request.getSession().getAttribute("user");
+        System.out.println("Content of post: " + content);
+        User user = (User) request.getSession().getAttribute("user");
 
         Post post = new Post();
         post.setContent(content);
         post.setDate(new Date());
-        post.setLikes(0);
         post.setUser(user);
+        
         
         SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
         Session session = sessionFactory.openSession();
@@ -33,6 +32,8 @@ public class PostServlet extends HttpServlet {
         session.save(post);
         session.getTransaction().commit();
         session.close();
-        response.sendRedirect("profile.jsp");
+        request.setAttribute("newPost", post);
+        request.getRequestDispatcher("post.jsp").forward(request, response);
+//        response.sendRedirect("profile.jsp");
     }
 }

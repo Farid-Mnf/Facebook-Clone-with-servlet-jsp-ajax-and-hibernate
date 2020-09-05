@@ -9,7 +9,6 @@ import org.hibernate.SessionFactory;
 @WebListener
 public class ContextInitListener implements ServletContextListener {
 
-
     public ContextInitListener() {}
 
     @Override
@@ -18,14 +17,9 @@ public class ContextInitListener implements ServletContextListener {
         sessionFactory.close();
     }
 
-
     @Override
     public void contextInitialized(ServletContextEvent arg0)  { 
-
-        
         SessionFactory sessionFactory = service.DBConnect.connection();
     	arg0.getServletContext().setAttribute("sessionFactory", sessionFactory);
-        System.out.println("Context initialized with -((.Session Factory.))- ...............");
     }
-	
 }

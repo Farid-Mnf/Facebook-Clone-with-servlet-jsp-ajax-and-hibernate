@@ -49,7 +49,7 @@ public class SignupServlet extends HttpServlet {
                 user.setYear(year);
                 user.setGender(gender);
                 user.setProfilePicture("facebook.png");
-                user.setCoverPicture("cover.jpg");
+                user.setCoverPicture("facebook.png");
                 SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
                 System.out.println("SessionFactory:"+sessionFactory);
                 Session session = sessionFactory.openSession();
@@ -59,7 +59,7 @@ public class SignupServlet extends HttpServlet {
                 session.close();
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
-        }
-        response.sendRedirect("index.jsp");
+        }else
+            response.sendRedirect("index.jsp");
     }
 }

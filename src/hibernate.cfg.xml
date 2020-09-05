@@ -57,6 +57,7 @@ Contributor(s):
     <mapping class="dto.User"/>
     <mapping class="dto.Post"/>
     <mapping class="dto.Comment"/>
+    <mapping class="dto.LikeReact"/>
 
   </session-factory>
 </hibernate-configuration>

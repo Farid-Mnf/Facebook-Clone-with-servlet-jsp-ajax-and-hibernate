@@ -8,12 +8,13 @@ import javax.persistence.OneToOne;
 @Entity
 public class LikeReact {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
-    
+
     @OneToOne
     private User user;
-    
+
     @OneToOne
     private Post post;
 
@@ -24,8 +25,6 @@ public class LikeReact {
     public void setPost(Post post) {
         this.post = post;
     }
-    
-    
 
     public User getUser() {
         return user;

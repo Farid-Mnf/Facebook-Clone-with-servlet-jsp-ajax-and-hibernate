@@ -24,8 +24,7 @@ public class PostServlet extends HttpServlet {
         post.setContent(content);
         post.setDate(new Date());
         post.setUser(user);
-        
-        
+
         SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -34,6 +33,5 @@ public class PostServlet extends HttpServlet {
         session.close();
         request.setAttribute("newPost", post);
         request.getRequestDispatcher("post.jsp").forward(request, response);
-//        response.sendRedirect("profile.jsp");
     }
 }

@@ -17,10 +17,10 @@ public class Post {
     @GeneratedValue
     private int id;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "post") 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
     private List<LikeReact> likes = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "post")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
     @OneToOne

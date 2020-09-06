@@ -26,7 +26,7 @@ public class CoverUploadServlet extends HttpServlet {
             List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
             FileItem fileItem = items.get(0);
             System.out.println("File Item name: " + fileItem.getName());
-            File file = new File(getServletContext().getInitParameter("file-upload").toString() + "/" + random.nextInt(1000000)+"_"+random.nextInt(1000000) + fileItem.getName());
+            File file = new File(getServletContext().getInitParameter("file-upload").toString() + "/" + random.nextInt(1000000) + "_" + random.nextInt(1000000) + fileItem.getName());
 
             fileItem.write(file);
             SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
@@ -35,7 +35,7 @@ public class CoverUploadServlet extends HttpServlet {
             User user = (User) request.getSession().getAttribute("user");
             user = (User) session.get(User.class, user.getId());
 
-            user.setCoverPicture(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("/")+1));
+            user.setCoverPicture(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("/") + 1));
             fileName = user.getCoverPicture();
             session.update(user);
             request.getSession().setAttribute("user", user);

@@ -5,21 +5,21 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import org.hibernate.SessionFactory;
 
-
 @WebListener
 public class ContextInitListener implements ServletContextListener {
 
-    public ContextInitListener() {}
+    public ContextInitListener() {
+    }
 
     @Override
-    public void contextDestroyed(ServletContextEvent arg0)  { 
+    public void contextDestroyed(ServletContextEvent arg0) {
         SessionFactory sessionFactory = (SessionFactory) arg0.getServletContext().getAttribute("sessionFactory");
         sessionFactory.close();
     }
 
     @Override
-    public void contextInitialized(ServletContextEvent arg0)  { 
+    public void contextInitialized(ServletContextEvent arg0) {
         SessionFactory sessionFactory = service.DBConnect.connection();
-    	arg0.getServletContext().setAttribute("sessionFactory", sessionFactory);
+        arg0.getServletContext().setAttribute("sessionFactory", sessionFactory);
     }
 }

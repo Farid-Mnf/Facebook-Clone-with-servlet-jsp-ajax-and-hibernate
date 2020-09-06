@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-
 @WebServlet("/signup")
 public class SignupServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
@@ -26,7 +26,7 @@ public class SignupServlet extends HttpServlet {
         String day;
         String year;
         String gender;
-        
+
         firstName = request.getParameter("firstName");
         lastName = request.getParameter("lastName");
         email = request.getParameter("email");
@@ -36,7 +36,7 @@ public class SignupServlet extends HttpServlet {
         day = request.getParameter("day");
         year = request.getParameter("year");
         gender = request.getParameter("gender");
-        
+
         if (gender != null && firstName != null && lastName != null && email != null && reEmail != null && password != null && month != null && day != null && year != null) {
             if (email.equals(reEmail)) {
                 User user = new User();
@@ -51,7 +51,7 @@ public class SignupServlet extends HttpServlet {
                 user.setProfilePicture("facebook.png");
                 user.setCoverPicture("facebook.png");
                 SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
-                System.out.println("SessionFactory:"+sessionFactory);
+                System.out.println("SessionFactory:" + sessionFactory);
                 Session session = sessionFactory.openSession();
                 session.beginTransaction();
                 session.save(user);
@@ -59,7 +59,8 @@ public class SignupServlet extends HttpServlet {
                 session.close();
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
-        }else
+        } else {
             response.sendRedirect("index.jsp");
+        }
     }
 }

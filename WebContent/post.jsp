@@ -39,15 +39,9 @@ user = (User) session.getAttribute("user");
             </button>
                 <div style="background-color:#1A4464;" class="dropdown-menu" aria-labelledby="dropdownMenu2">
             <button onclick="deletePost(<%=newPost.getId()%>)" class="dropdown-item">Delete</button>
-            <button class="dropdown-item">Edit</button>
+            <button onclick="showEditBox(<%=newPost.getId()%>)" class="dropdown-item">Edit</button>
           </div>
         </div>
-            <script>
-                if(document.title=='Facebook'){
-                    document.getElementsByClassName('dots')[0].style.display = 'none';
-                }
-            </script>
-            
     </div>
 
     <div class="desc">

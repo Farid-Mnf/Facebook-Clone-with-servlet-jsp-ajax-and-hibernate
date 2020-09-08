@@ -351,7 +351,7 @@
                                 </button>
                                     <div style="background-color:#1A4464;" class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                 <button onclick="deletePost(<%=post.getId()%>)" class="dropdown-item">Delete</button>
-                                <button class="dropdown-item">Edit</button>
+                                <button onclick="showEditBox(<%=post.getId()%>)" class="dropdown-item">Edit</button>
                               </div>
                             </div>
 
@@ -454,7 +454,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
@@ -592,6 +591,17 @@
             xhr.open('post', '/delete', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
             var data = 'postId='+postId;
+            xhr.send(data);
+        }
+        function showEditBox(postId) {
+            var postText = document.querySelector('#postView' + postId + ' .desc p');
+            var newPostText = window.prompt("Edit Post",postText.innerText);
+            postText.innerText = newPostText;
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', '/edit', true);
+            xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            var data = 'newPost=' + newPostText + '&postId='+postId;
             xhr.send(data);
         }
     </script>

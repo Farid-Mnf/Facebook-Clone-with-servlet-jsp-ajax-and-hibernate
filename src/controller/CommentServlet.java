@@ -1,8 +1,8 @@
 package controller;
 
-import dto.Comment;
-import dto.Post;
-import dto.User;
+import model.Comment;
+import model.Post;
+import model.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

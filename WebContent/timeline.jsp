@@ -1,11 +1,12 @@
+<%@page import="org.hibernate.Query"%>
 <%@page import="org.hibernate.Session"%>
 <%@page import="org.hibernate.SessionFactory"%>
 <%@page import="service.*"%>
-<%@page import="dto.Comment"%>
+<%@page import="model.Comment"%>
 <%@page import="java.util.List"%>
-<%@page import="dto.Post"%>
+<%@page import="model.Post"%>
 <%@page import="java.sql.*"%>
-<%@page import="dto.User"%>
+<%@page import="model.User"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,6 +18,29 @@
     <link rel="stylesheet" href="css/owl.theme.default.css">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <style>
+        .dropdown-item {
+            background-color: #031D2E;
+            color:white;
+        }
+        .dropdown-item:hover {
+            background-color:#072A41;
+            color:white;
+        }
+        .dot{
+            margin-left: 4px;
+        }
+        .dropdown-toggle{
+            border-radius: 100%;
+            width: 40px;
+            height: 40px;
+            background-color: #031D2E;
+        }
+        .dropdown-toggle::after {
+            content: none;
+        }
+        .comment-button-section{
+            cursor: pointer;
+        }
         img:hover {
             cursor: pointer
         }
@@ -173,7 +197,6 @@ dbSession = sessionFactory.openSession();
                 %>
 
 
-                <!--post container-->
                 <div class="view view-post-container smaller-margin">
                     <div id='postView<%=post.getId()%>' class="view-post">
                         <div class="upper">
@@ -192,10 +215,6 @@ dbSession = sessionFactory.openSession();
                                     <span class="time"><%=post.getDate()%></span>
                                 </div>
                             </div>
-
-                            <div class="dots">
-                                <div class="dot"></div>
-                            </div>
                         </div>
 
                         <div class="desc">
@@ -209,7 +228,20 @@ dbSession = sessionFactory.openSession();
                                 <button onclick="getLikes(<%=post.getId()%>,<%=user.getId()%>)"
                                     style="background:none;border:none" class="likeButton">
                                     <div class="icon">
-                                        <img src="img/icons/thumbs-up.svg" alt="">
+<% 
+    Query checkLiked = dbSession.createQuery("from LikeReact where user_id= :user and post_id= :post");
+    checkLiked.setParameter("user", user.getId());
+    checkLiked.setParameter("post", post.getId());
+    if(checkLiked.uniqueResult()!=null){
+        %>
+        <img src="Images/liked.png" alt="">
+        <%
+    }else{
+        %>
+        <img src="img/icons/thumbs-up.svg" alt="">
+        <%
+    }
+%>
                                     </div>
                                 </button>
                                 <span>
@@ -218,7 +250,7 @@ dbSession = sessionFactory.openSession();
 
                             </div>
 
-                            <div class="action">
+                            <div id="commentIcon<%=post.getId()%>"  onclick="setInputFocus(<%=post.getId()%>)" class="action comment-button-section">
                                 <div class="icon">
                                     <img src="img/icons/comment.svg" alt="">
                                 </div>
@@ -377,7 +409,21 @@ dbSession = sessionFactory.openSession();
     </div>
 
     <script>
+        
+        
+        function setInputFocus(postId) {
+            document.getElementById('comment'+postId).focus();
+        }
+        
         function getLikes(postId, userId) {
+            var post = document.getElementById('postView'+postId);
+            var likeButton = post.children[2].querySelector('.likeButton .icon img');
+            var prevIcon = likeButton.src;
+            if(prevIcon=='http://localhost:8084/img/icons/thumbs-up.svg'){
+                likeButton.src = 'Images/liked.png';
+            }else{
+                likeButton.src = 'img/icons/thumbs-up.svg';
+            }
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/like?post_id=' + postId + '&user_id=' + userId, true);
             xhr.onload = function () {
@@ -426,8 +472,7 @@ dbSession = sessionFactory.openSession();
             this.src = "/Images/postIcon-dark.png";
             var xhr = new XMLHttpRequest();
             var post = document.getElementById('postText');
-            var postContent = post.value;
-            console.log(postContent);
+            var postContent = post.value; post.value = "";
             var data = 'post=' + postContent;
             xhr.open('POST', 'post', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
@@ -435,18 +480,25 @@ dbSession = sessionFactory.openSession();
                 var timeline = document.getElementById('timeline');
                 var newPostNode = document.createElement('div');
                 newPostNode.classList = 'view view-post-container smaller-margin';
+                
                 newPostNode.innerHTML = this.responseText;
                 timeline.insertBefore(newPostNode, timeline.children[0].nextSibling);
+                
+                var posts = document.getElementsByClassName('dots');
+                for(var i =0 ; i< posts.length-1;++i){ posts[i].style.display = 'none'; }
             }
             xhr.send(data);
 
         }
 
     </script>
+
+    
+    
     <script src="js/jquery.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/index.js"></script>
-    
+
 <%@include file="check2.jsp"%>
 </body>
 

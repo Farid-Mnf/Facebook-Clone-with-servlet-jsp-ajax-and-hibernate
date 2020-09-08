@@ -1,4 +1,4 @@
-<%@page import="dto.User"%>
+<%@page import="model.User"%>
 <!DOCTYPE html>
 <html>
 <head>

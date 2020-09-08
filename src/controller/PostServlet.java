@@ -1,7 +1,7 @@
 package controller;
 
-import dto.Post;
-import dto.User;
+import model.Post;
+import model.User;
 import java.io.IOException;
 import java.util.Date;
 import javax.servlet.ServletException;

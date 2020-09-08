@@ -1,6 +1,6 @@
 package controller;
 
-import dto.User;
+import model.User;
 import java.io.IOException;
 import javax.servlet.*;
 import javax.servlet.http.*;

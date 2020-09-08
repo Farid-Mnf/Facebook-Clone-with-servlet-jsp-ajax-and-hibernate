@@ -1,11 +1,9 @@
 <%@page import="org.hibernate.Query"%>
 <%@page import="org.hibernate.SessionFactory"%>
 <%@page import="org.hibernate.Session"%>
-<%@page import="service.LoadComments"%>
-<%@page import="service.GetFile"%>
 <%@page import="service.UserData"%>
 <%@page import="java.util.List"%>
-<%@page import="dto.*" language="java"	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="model.*" language="java"	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -20,6 +18,29 @@
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <title>Profile</title>
     <style type="text/css">
+        .dropdown-item {
+            background-color: #031D2E;
+            color:white;
+        }
+        .dropdown-item:hover {
+            background-color:#072A41;
+            color:white;
+        }
+        .dot{
+            margin-left: 4px;
+        }
+        .dropdown-toggle{
+            border-radius: 100%;
+            width: 40px;
+            height: 40px;
+            background-color: #031D2E;
+        }
+        .dropdown-toggle::after {
+            content: none;
+        }
+        .comment-button-section{
+            cursor: pointer;
+        }
         img:hover {
             cursor: pointer
         }
@@ -266,7 +287,7 @@
         <div class="posts" style="width:70%; margin:0 auto">
             <div id="timeline" class="timeline">
                 <!-- posting box -->
-                <div class="view create-post" style="margin-top:0">
+                <div class="view create-post" style="margin-top:0;margin-bottom: 50px">
                     <div class="input">
                         <div class="user">
                             <div class="profile">
@@ -323,10 +344,17 @@
                                     <span class="time"><%=post.getDate()%></span>
                                 </div>
                             </div>
-
-                            <div class="dots">
-                                <div class="dot"></div>
+                                
+                            <div class="dropdown dots">
+                                <button  class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <div class="dot"></div>
+                                </button>
+                                    <div style="background-color:#1A4464;" class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <button onclick="deletePost(<%=post.getId()%>)" class="dropdown-item">Delete</button>
+                                <button class="dropdown-item">Edit</button>
+                              </div>
                             </div>
+
                         </div>
 
                         <div class="desc">
@@ -340,7 +368,20 @@
                                 <button onclick="getLikes(<%=post.getId()%>,<%=user.getId()%>)"
                                     style="background:none;border:none" class="likeButton">
                                     <div class="icon">
-                                        <img src="img/icons/thumbs-up.svg" alt="">
+<% 
+    Query checkLiked = dbSession.createQuery("from LikeReact where user_id= :user and post_id= :post");
+    checkLiked.setParameter("user", user.getId());
+    checkLiked.setParameter("post", post.getId());
+    if(checkLiked.uniqueResult()!=null){
+        %>
+        <img src="Images/liked.png" alt="">
+        <%
+    }else{
+        %>
+        <img src="img/icons/thumbs-up.svg" alt="">
+        <%
+    }
+%>
                                     </div>
                                 </button>
                                 <span>
@@ -349,7 +390,7 @@
 
                             </div>
 
-                            <div class="action">
+                            <div id="commentIcon<%=post.getId()%>"  onclick="setInputFocus(<%=post.getId()%>)" class="action comment-button-section">
                                 <div class="icon">
                                     <img src="img/icons/comment.svg" alt="">
                                 </div>
@@ -415,10 +456,15 @@
     </div>
 
 
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
     </script>
     <script>
+        
+        function setInputFocus(postId) {
+            document.getElementById('comment'+postId).focus();
+        }
         
         function performAjaxSubmit(e) {
             var formType = e;
@@ -463,6 +509,16 @@
             }
         }
         function getLikes(postId, userId) {
+            var post = document.getElementById('postView'+postId);
+            var likeButton = post.children[2].querySelector('.likeButton .icon img');
+            var prevIcon = likeButton.src;
+            console.log(prevIcon);
+            if(prevIcon=='http://localhost:8084/img/icons/thumbs-up.svg'){
+                console.log('equal');
+                likeButton.src = 'Images/liked.png';
+            }else{
+                likeButton.src = 'img/icons/thumbs-up.svg';
+            }
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/like?post_id=' + postId + '&user_id=' + userId, true);
             xhr.onload = function () {
@@ -511,8 +567,7 @@
             this.src = "/Images/postIcon-dark.png";
             var xhr = new XMLHttpRequest();
             var post = document.getElementById('postText');
-            var postContent = post.value;
-            console.log(postContent);
+            var postContent = post.value; post.value = "";
             var data = 'post=' + postContent;
             xhr.open('POST', 'post', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
@@ -526,7 +581,22 @@
             xhr.send(data);
 
         }
+        function deletePost(postId) {
+            // get the post DIV to delete
+            var parentPost = document.getElementById('postView'+postId).parentElement;
+            // delete post in html using javascript
+            parentPost.style.display = 'none';
+            
+            // delete post in database asyncronously with ajax
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', '/delete', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            var data = 'postId='+postId;
+            xhr.send(data);
+        }
     </script>
+    
+    
     <script src="js/jquery.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/index.js"></script>

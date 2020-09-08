@@ -1,6 +1,6 @@
 package controller;
 
-import dto.User;
+import model.User;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -17,26 +17,17 @@ public class SignupServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        String firstName;
-        String lastName;
-        String email;
-        String reEmail;
-        String password;
-        String month;
-        String day;
-        String year;
-        String gender;
-
-        firstName = request.getParameter("firstName");
-        lastName = request.getParameter("lastName");
-        email = request.getParameter("email");
-        reEmail = request.getParameter("reEmail");
-        password = request.getParameter("password");
-        month = request.getParameter("month");
-        day = request.getParameter("day");
-        year = request.getParameter("year");
-        gender = request.getParameter("gender");
-
+        
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        String reEmail = request.getParameter("reEmail");
+        String password = request.getParameter("password");
+        String month = request.getParameter("month");
+        String day = request.getParameter("day");
+        String year = request.getParameter("year");
+        String gender = request.getParameter("gender");
+        
         if (gender != null && firstName != null && lastName != null && email != null && reEmail != null && password != null && month != null && day != null && year != null) {
             if (email.equals(reEmail)) {
                 User user = new User();
@@ -51,7 +42,6 @@ public class SignupServlet extends HttpServlet {
                 user.setProfilePicture("facebook.png");
                 user.setCoverPicture("facebook.png");
                 SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
-                System.out.println("SessionFactory:" + sessionFactory);
                 Session session = sessionFactory.openSession();
                 session.beginTransaction();
                 session.save(user);

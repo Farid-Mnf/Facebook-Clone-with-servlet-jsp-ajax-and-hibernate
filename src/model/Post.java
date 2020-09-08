@@ -1,4 +1,4 @@
-package dto;
+package model;
 
 import java.util.ArrayList;
 import java.util.Date;

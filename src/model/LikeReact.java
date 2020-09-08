@@ -1,8 +1,9 @@
-package dto;
+package model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -15,15 +16,15 @@ public class LikeReact {
     @OneToOne
     private User user;
 
-    @OneToOne
+    @ManyToOne
     private Post post;
 
-    public Post getPost() {
-        return post;
+    public int getId() {
+        return id;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public User getUser() {
@@ -34,11 +35,11 @@ public class LikeReact {
         this.user = user;
     }
 
-    public int getId() {
-        return id;
+    public Post getPost() {
+        return post;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

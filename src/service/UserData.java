@@ -1,6 +1,6 @@
 package service;
 
-import dto.User;
+import model.User;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;

@@ -51,13 +51,12 @@ Contributor(s):
     
     <property name="show_sql">true</property>
     
-    <property name="hbm2ddl.auto">update</property>
+    <property name="hbm2ddl.auto">create</property>
 
     <property name="hibernate.generateDdl">true</property>
-    <mapping class="dto.User"/>
-    <mapping class="dto.Post"/>
-    <mapping class="dto.Comment"/>
-    <mapping class="dto.LikeReact"/>
-
+    <mapping class="model.User"/>
+    <mapping class="model.Post"/>
+    <mapping class="model.Comment"/>
+    <mapping class="model.LikeReact"/>
   </session-factory>
 </hibernate-configuration>

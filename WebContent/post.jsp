@@ -1,7 +1,7 @@
 <%@page import="java.util.List"%>
-<%@page import="dto.Comment"%>
-<%@page import="dto.User"%>
-<%@page import="dto.Post"%>
+<%@page import="model.Comment"%>
+<%@page import="model.User"%>
+<%@page import="model.Post"%>
 <%!
 Post newPost;
 User newPostUser;
@@ -33,9 +33,21 @@ user = (User) session.getAttribute("user");
             </div>
         </div>
 
-        <div class="dots">
-            <div class="dot"></div>
+        <div class="dropdown dots">
+            <button  class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div class="dot"></div>
+            </button>
+                <div style="background-color:#1A4464;" class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <button onclick="deletePost(<%=newPost.getId()%>)" class="dropdown-item">Delete</button>
+            <button class="dropdown-item">Edit</button>
+          </div>
         </div>
+            <script>
+                if(document.title=='Facebook'){
+                    document.getElementsByClassName('dots')[0].style.display = 'none';
+                }
+            </script>
+            
     </div>
 
     <div class="desc">
@@ -46,7 +58,7 @@ user = (User) session.getAttribute("user");
         <div class="action">
             <span id='<%="like" + newPost.getId()%>' class="likeCount"><%=newPost.getLikes().size()%>
                 likes</span>
-            <button onclick="getLikes(<%=newPost.getId()%>,<%=newPost.getId()%>)"
+            <button onclick="getLikes(<%=newPost.getId()%>,<%=user.getId()%>)"
                     style="background:none;border:none" class="likeButton">
                 <div class="icon">
                     <img src="img/icons/thumbs-up.svg" alt="">
@@ -58,7 +70,7 @@ user = (User) session.getAttribute("user");
 
         </div>
 
-        <div class="action">
+        <div id="commentIcon<%=newPost.getId()%>"  onclick="setInputFocus(<%=newPost.getId()%>)" class="action">
             <div class="icon">
                 <img src="img/icons/comment.svg" alt="">
             </div>
@@ -68,7 +80,7 @@ user = (User) session.getAttribute("user");
         </div>
     </div>
     <input style="visibility:hidden" type="text" value="<%=newPost.getId()%>" name="postId" />
-    <input style="visibility:hidden" type="text" value="<%=newPost.getId()%>" name="userId" />
+    <input style="visibility:hidden" type="text" value="<%=user.getId()%>" name="userId" />
     <div class="write-comment">
         <div class="user">
             <div class="profile">

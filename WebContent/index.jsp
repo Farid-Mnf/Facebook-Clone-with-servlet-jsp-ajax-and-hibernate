@@ -42,7 +42,11 @@
 								me logged in
 							</div>
 						</td>
-						<td class="row2 h">Forgot your password?</td>
+                                                <td class="row2 h">
+                                                    <a style="color:white" href="forget.jsp">
+                                                        Forgot your password?
+                                                    </a>
+                                                </td>
 				</table>
 			</form>
 

@@ -11,9 +11,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import model.Code;
+import model.RecoveryCode;
 import org.hibernate.SessionFactory;
 
-public class ConfirmEmail {
+public class RecoveryEmail {
     private String to;
     private String from;
     private String password;
@@ -22,7 +23,7 @@ public class ConfirmEmail {
     private HttpServletRequest request;
     
     
-    public ConfirmEmail(String to, HttpServletRequest request) {
+    public RecoveryEmail(String to, HttpServletRequest request) {
         this.to = to;
         this.code = UUID.randomUUID().toString();
         this.from = "facebookclone34@gmail.com";
@@ -36,7 +37,7 @@ public class ConfirmEmail {
         org.hibernate.Session session = sessionFactory.openSession();
         session.beginTransaction();
         
-        Code codeObject = new Code();
+        RecoveryCode codeObject = new RecoveryCode();
         codeObject.setEmail(to);
         codeObject.setCode(code);
         
@@ -70,9 +71,9 @@ public class ConfirmEmail {
 
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
-            message.setSubject("FacebookClone Confirmation Code");
+            message.setSubject("FacebookClone Recovery Code");
             
-            message.setText("Your FacebookClone Confirmation Code is: " + code);
+            message.setText("Your FacebookClone Recovery Code is: " + code);
             
             Transport.send(message);
 

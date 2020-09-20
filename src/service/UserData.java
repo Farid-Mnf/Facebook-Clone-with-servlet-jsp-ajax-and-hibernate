@@ -2,8 +2,10 @@ package service;
 
 import model.User;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 public class UserData {
 
@@ -21,6 +23,21 @@ public class UserData {
             session.getTransaction().commit();
             session.close();
             return null;
+        }
+    }
+    public static boolean checkIfExists(String email, HttpServletRequest request) {
+        SessionFactory sessionFactory = (SessionFactory) request.getServletContext().getAttribute("sessionFactory");
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from User where email= :email");
+        query.setString("email", email);
+        Object result = query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        if (result != null) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

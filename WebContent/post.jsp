@@ -85,7 +85,7 @@ user = (User) session.getAttribute("user");
 
         <div class="input">
 
-            <input id="comment<%=newPost.getId()%>" style="color:white" type="text"
+            <input id="comment<%=newPost.getId()%>" style="opacity:.5;color:white" type="text"
                    placeholder="Write a comment" name="comment">
             <div class="media">
                 <div class="icon">

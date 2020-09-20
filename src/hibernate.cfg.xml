@@ -58,5 +58,6 @@ Contributor(s):
     <mapping class="model.Post"/>
     <mapping class="model.Comment"/>
     <mapping class="model.LikeReact"/>
+    <mapping class="model.Code"/>
   </session-factory>
 </hibernate-configuration>

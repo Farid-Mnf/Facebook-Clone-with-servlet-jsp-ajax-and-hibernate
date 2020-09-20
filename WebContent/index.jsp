@@ -55,7 +55,7 @@
 		<div id="content">
 			<!-- ############ SignUp Form ################# -->
 
-			<form action="signup" method="POST">
+			<form action="confirm.jsp" method="POST">
 				<div id="rightbod">
 					<div class="signup bolder">Sign Up</div>
 					<div class="free bolder">It's free and always will be</div>

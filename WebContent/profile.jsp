@@ -411,7 +411,7 @@
 
                             <div class="input">
 
-                                <input id="comment<%=post.getId()%>" style="color:white" type="text"
+                                <input id="comment<%=post.getId()%>" style="opacity:.5;color:white" type="text"
                                     placeholder="Write a comment" name="comment">
                                 <div class="media">
                                     <div class="icon">
@@ -596,13 +596,14 @@
         function showEditBox(postId) {
             var postText = document.querySelector('#postView' + postId + ' .desc p');
             var newPostText = window.prompt("Edit Post",postText.innerText);
-            postText.innerText = newPostText;
-            
-            var xhr = new XMLHttpRequest();
-            xhr.open('post', '/edit', true);
-            xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded; charset=UTF-8');
-            var data = 'newPost=' + newPostText + '&postId='+postId;
-            xhr.send(data);
+            if(newPostText!=null){   
+                postText.innerText = newPostText;
+                var xhr = new XMLHttpRequest();
+                xhr.open('post', '/edit', true);
+                xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                var data = 'newPost=' + newPostText + '&postId='+postId;
+                xhr.send(data);
+            }
         }
     </script>
     
@@ -613,7 +614,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
-        
 <%@include file="check2.jsp" %>
 </body>
 

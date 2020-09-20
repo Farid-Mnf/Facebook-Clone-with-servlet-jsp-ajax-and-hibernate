@@ -39,7 +39,7 @@
     <context-param>
         <param-name>file-upload</param-name>
         <param-value>
-            /home/ferio/NetBeansProjects/Facebook-Clone/WebContent/Images/
+            /home/ferio/NetBeansProjects/Facebook-Clone-with-servlet-and-jsp/WebContent/Images/
         </param-value>
     </context-param>
 </web-app>

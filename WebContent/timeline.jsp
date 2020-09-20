@@ -1,3 +1,6 @@
+<%@page import="org.hibernate.transform.Transformers"%>
+<%@page import="org.hibernate.SQLQuery"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="org.hibernate.Query"%>
 <%@page import="org.hibernate.Session"%>
 <%@page import="org.hibernate.SessionFactory"%>
@@ -57,12 +60,12 @@
 </head>
 
 <body>
-    <%
+<%
     response.setHeader("Cache-Control", "no-cache, no-store");
     response.setHeader("Pragma", "no-cache");
 %>
 
-    <%! 
+<%! 
     User user;
     SessionFactory sessionFactory;
     Session dbSession;
@@ -95,27 +98,8 @@ dbSession = sessionFactory.openSession();
             </div>
 
             <div class="tab-icon">
-                <div class="icon has-notification">
-                    <img src="img/icons/flag.svg" alt="">
-                </div>
-            </div>
-
-            <div class="tab-icon">
                 <div class="icon">
-                    <img src="img/icons/tv.svg" alt="">
-                </div>
-            </div>
-
-            <div class="tab-icon">
-                <div class="icon">
-                    <img src="img/icons/users.svg" alt="">
-                </div>
-            </div>
-
-
-            <div class="tab-icon">
-                <div class="icon has-notification">
-                    <img src="img/icons/calendar.svg" alt="">
+                    <a href="peopleyoumayknow.jsp"><img src="img/icons/users.svg" alt=""></a>
                 </div>
             </div>
         </div>
@@ -133,9 +117,6 @@ dbSession = sessionFactory.openSession();
 
             <!--icons-->
             <div class="user-icons">
-                <div class="icon">
-                    <img src="img/icons/plus.svg" alt="">
-                </div>
 
                 <div class="icon has-notification">
                     <img src=" img/icons/messenger.svg" alt="">
@@ -311,99 +292,6 @@ dbSession = sessionFactory.openSession();
                 <%
                 }
                 %>
-
-
-                <!--people you may know-->
-                <div class="view friends smaller-margin">
-                    <div class="upper">
-                        <h6>people you may know</h6>
-                        <div class="dots">
-                            <div class="dot"></div>
-                        </div>
-                    </div>
-
-                    <div class="owl-carousel owl-theme people">
-                        <div class="item">
-                            <div class="person-img">
-                                <div class="icon">
-                                    &times;
-                                </div>
-                                <img src="img/avatar/1.jpg" alt="">
-                            </div>
-
-                            <div class="info">
-                                <h4>
-                                    rosie pie
-                                </h4>
-                                <span>4 mutual friend</span>
-                                <button>
-                                    add friend
-                                </button>
-                            </div>
-                        </div>
-                        <!---->
-
-                        <div class="item">
-                            <div class="person-img">
-                                <div class="icon">
-                                    &times;
-                                </div>
-                                <img src="img/avatar/4.jpg" alt="">
-                            </div>
-
-                            <div class="info">
-                                <h4>
-                                    sarah jones
-                                </h4>
-                                <span>4 mutual friend</span>
-                                <button>
-                                    add friend
-                                </button>
-                            </div>
-                        </div>
-                        <!---->
-
-                        <div class="item">
-                            <div class="person-img">
-                                <div class="icon">
-                                    &times;
-                                </div>
-                                <img src="img/avatar/3.jpg" alt="">
-                            </div>
-
-                            <div class="info">
-                                <h4>
-                                    chris doe
-                                </h4>
-                                <span>4 mutual friend</span>
-                                <button>
-                                    add friend
-                                </button>
-                            </div>
-                        </div>
-                        <!---->
-
-                        <div class="item">
-                            <div class="person-img">
-                                <div class="icon">
-                                    &times;
-                                </div>
-                                <img src="img/avatar/2.jpg" alt="">
-                            </div>
-
-                            <div class="info">
-                                <h4>
-                                    katie adam
-                                </h4>
-                                <span>4 mutual friend</span>
-                                <button>
-                                    add friend
-                                </button>
-                            </div>
-                        </div>
-                        <!---->
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -446,8 +334,6 @@ dbSession = sessionFactory.openSession();
                     var commentScheme = "<div class='write-comment commentList'><div class='user'><div class='profile'><img src='Images/<%=user.getProfilePicture()%>'></div></div><div style='justify-content: left;color:white' class='input' role='alert'>" + newComment + "</div></div>";
                     var postViewScheme = document.getElementById(postView);
                     postViewScheme.innerHTML += commentScheme;
-
-                    console.log(newComment);
                 }
             }
             xhr.send();
@@ -485,7 +371,7 @@ dbSession = sessionFactory.openSession();
                 timeline.insertBefore(newPostNode, timeline.children[0].nextSibling);
                 
                 var posts = document.getElementsByClassName('dots');
-                for(var i =0 ; i< posts.length-1;++i){ posts[i].style.display = 'none'; }
+                for(var i =0 ; i< posts.length;++i){ posts[i].style.display = 'none'; }
             }
             xhr.send(data);
 
